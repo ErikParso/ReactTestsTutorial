@@ -14,9 +14,7 @@ class App extends Component {
       buttonText: "Get posts",
       emitEvent: this.props.fetchPosts
     };
-
-    console.log(this.props.posts);
-
+    
     return <div className="App">
       <Header />
       <section className="main">
