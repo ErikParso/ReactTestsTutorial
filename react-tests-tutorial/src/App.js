@@ -7,19 +7,37 @@ import ListItem from './components/listItem';
 import { connect } from 'react-redux';
 import { fetchPosts } from './actions';
 
+const initialState = {
+  hideBtn: false
+};
+
 class App extends Component {
 
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      ...initialState
+    };
+  }
+
+  setButtonHidden = () =>
+    this.setState({ hideBtn: true });
+  
   render() {
     const configButton = {
       buttonText: "Get posts",
-      emitEvent: this.props.fetchPosts
+      emitEvent: () => {
+        this.props.fetchPosts();
+        this.setButtonHidden();
+      }
     };
-    
+
     return <div className="App" data-test="appComponent">
       <Header />
       <section className="main">
         <Headline header="Posts" description="Click the button to render posts." />
-        <SharedButton {...configButton} />
+        {!this.state.hideBtn && <SharedButton {...configButton} />}
         {this.props.posts && this.props.posts.length > 0 &&
           this.props.posts.map((post, i) => <ListItem key={i} title={post.title} desc={post.body} />)}
       </section>
